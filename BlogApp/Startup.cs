@@ -28,6 +28,7 @@ namespace BlogApp
             services.AddControllersWithViews();
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
+            services.AddCloudscribePagination();
 
         }
 

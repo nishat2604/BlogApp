@@ -19,10 +19,21 @@ namespace BlogApp.Controllers
         }
 
         // GET: Blogs
-        public async Task<IActionResult> Index()
+        
+    public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20)
         {
-            return View(await _context.Blog.ToListAsync());
+            //e.g. if pagenumber is 3, it needs to start from record no.5 
+            //e.g. So, records to be excluced are ( 2 * 3 ) -2 =4, and records =pagesize are to be taken 
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
+
+            var blog = _context.Blog
+                      .Skip(ExcludeRecords)
+                      .Take(pageSize)
+                      .ToListAsync();
+            return View(await blog);
+            //return View(await _context.Blog.ToListAsync());
         }
+
 
         // GET: Blogs/Details/5
         public async Task<IActionResult> Details(int? id)
