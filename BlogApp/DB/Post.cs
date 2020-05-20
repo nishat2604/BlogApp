@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BlogApp.Models
+﻿namespace BlogApp.DB
 {
     public partial class Post
     {

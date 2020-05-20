@@ -1,11 +1,10 @@
-﻿using System;
+﻿using BlogApp.DB;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using BlogApp.Models;
 
 namespace BlogApp.Controllers
 {
@@ -19,18 +18,27 @@ namespace BlogApp.Controllers
         }
 
         // GET: Blogs
-        
-    public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20)
+
+        public IActionResult Index(int pageNumber = 1, int pageSize = 20)
         {
             //e.g. if pagenumber is 3, it needs to start from record no.5 
             //e.g. So, records to be excluced are ( 2 * 3 ) -2 =4, and records =pagesize are to be taken 
             int ExcludeRecords = (pageSize * pageNumber) - pageSize;
-
+            List<Blog> lstBlog = new List<Blog>();
+            lstBlog.Add(
+                new Blog { BlogId = 1, DateCreated = DateTime.Now, Post = null, Url = "www.com" }
+                );
+            lstBlog.Add(
+                new Blog { BlogId = 2, DateCreated = DateTime.Now, Post = null, Url = ".net core" }
+                );
+            lstBlog.Add(
+                new Blog { BlogId = 3, DateCreated = DateTime.Now, Post = null, Url = "hello india " }
+                );
             var blog = _context.Blog
                       .Skip(ExcludeRecords)
                       .Take(pageSize)
                       .ToListAsync();
-            return View(await blog);
+            return View(lstBlog);
             //return View(await _context.Blog.ToListAsync());
         }
 
